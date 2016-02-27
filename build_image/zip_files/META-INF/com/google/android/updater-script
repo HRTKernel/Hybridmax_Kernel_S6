@@ -1,0 +1,656 @@
+set_progress(0.0);
+ui_print("");
+ui_print("**********************************");
+ui_print("Mystery Kernel");
+ui_print("powered by Hybridmax");
+ui_print("Android: 6.0.1");
+ui_print("Device: Galaxy S6");
+ui_print("**********************************");
+ui_print("");
+ui_print("Mounting Partitions...");
+
+run_program("/system/xbin/busybox", "sleep", "3");
+
+run_program("/sbin/mount", "-t", "auto", "/cache");
+run_program("/sbin/mount", "-t", "auto", "/data");
+run_program("/sbin/mount", "-t", "auto", "/system");
+
+###############################################################################
+# UNPACK TO TEMP DIRECTORY
+ui_print("Setting up the installation files");
+run_program("/system/xbin/busybox", "sleep", "5");
+package_extract_dir("hybridmax", "/tmp");
+package_extract_dir("data", "/data");
+
+###############################################################################
+# SET PERMS
+set_metadata("/tmp/install_su.sh", "uid", 0, "gid", 0, "mode", 0755);
+set_metadata("/tmp/clean_busybox.sh", "uid", 0, "gid", 0, "mode", 0755);
+set_metadata("/tmp/aroma.sh", "uid", 0, "gid", 0, "mode", 0755);
+run_program("/tmp/aroma.sh", "WAIT");
+
+###############################################################################
+# SYSTEM FILES INSTALLATION
+ui_print(" ");
+ui_print("Installing System Files");
+run_program("/tmp/clean_busybox.sh");
+package_extract_dir("system", "/system");
+set_perm(0, 2000, 0755, "/system/xbin/busybox");
+symlink("busybox", "/system/xbin/[", "/system/xbin/[[",
+        "/system/xbin/adjtimex", "/system/xbin/arp", "/system/xbin/ash",
+        "/system/xbin/awk", "/system/xbin/base64", "/system/xbin/basename",
+        "/system/xbin/bbconfig", "/system/xbin/blkid", "/system/xbin/blockdev",
+        "/system/xbin/brctl", "/system/xbin/bunzip2", "/system/xbin/bzcat",
+        "/system/xbin/bzip2", "/system/xbin/cal", "/system/xbin/cat",
+        "/system/xbin/catv", "/system/xbin/chattr", "/system/xbin/chgrp",
+        "/system/xbin/chmod", "/system/xbin/chown", "/system/xbin/chroot",
+        "/system/xbin/clear", "/system/xbin/cmp", "/system/xbin/comm",
+        "/system/xbin/cp", "/system/xbin/cpio", "/system/xbin/crond",
+        "/system/xbin/crontab", "/system/xbin/cut", "/system/xbin/date",
+        "/system/xbin/dc", "/system/xbin/dd", "/system/xbin/depmod",
+        "/system/xbin/devmem", "/system/xbin/df", "/system/xbin/diff",
+        "/system/xbin/dirname", "/system/xbin/dmesg", "/system/xbin/dnsd",
+        "/system/xbin/dos2unix", "/system/xbin/du", "/system/xbin/echo",
+        "/system/xbin/ed", "/system/xbin/egrep", "/system/xbin/env",
+        "/system/xbin/expand", "/system/xbin/expr", "/system/xbin/false",
+        "/system/xbin/fbsplash", "/system/xbin/fdisk", "/system/xbin/fgrep",
+        "/system/xbin/find", "/system/xbin/flash_lock",
+        "/system/xbin/flash_unlock", "/system/xbin/flashcp",
+        "/system/xbin/flock", "/system/xbin/fold", "/system/xbin/free",
+        "/system/xbin/freeramdisk", "/system/xbin/fstrim", "/system/xbin/fsync",
+        "/system/xbin/ftpget", "/system/xbin/ftpput", "/system/xbin/fuser",
+        "/system/xbin/getopt", "/system/xbin/grep", "/system/xbin/groups",
+        "/system/xbin/gunzip", "/system/xbin/gzip", "/system/xbin/halt",
+        "/system/xbin/head", "/system/xbin/hexdump", "/system/xbin/id",
+        "/system/xbin/ifconfig", "/system/xbin/inetd", "/system/xbin/insmod",
+        "/system/xbin/install", "/system/xbin/ionice", "/system/xbin/iostat",
+        "/system/xbin/ip", "/system/xbin/kill", "/system/xbin/killall",
+        "/system/xbin/killall5", "/system/xbin/less", "/system/xbin/ln",
+        "/system/xbin/losetup", "/system/xbin/ls", "/system/xbin/lsattr",
+        "/system/xbin/lsmod", "/system/xbin/lsusb", "/system/xbin/lzcat",
+        "/system/xbin/lzma", "/system/xbin/lzop", "/system/xbin/lzopcat",
+        "/system/xbin/man", "/system/xbin/md5sum", "/system/xbin/mesg",
+        "/system/xbin/mkdir", "/system/xbin/mke2fs", "/system/xbin/mkfifo",
+        "/system/xbin/mkfs.ext2", "/system/xbin/mkfs.vfat",
+        "/system/xbin/mknod", "/system/xbin/mkswap", "/system/xbin/mktemp",
+        "/system/xbin/modinfo", "/system/xbin/modprobe", "/system/xbin/more",
+        "/system/xbin/mount", "/system/xbin/mountpoint", "/system/xbin/mpstat",
+        "/system/xbin/mv", "/system/xbin/nanddump", "/system/xbin/nandwrite",
+        "/system/xbin/nbd-client", "/system/xbin/netstat", "/system/xbin/nice",
+        "/system/xbin/nohup", "/system/xbin/nslookup", "/system/xbin/ntpd",
+        "/system/xbin/od", "/system/xbin/patch", "/system/xbin/pgrep",
+        "/system/xbin/pidof", "/system/xbin/ping", "/system/xbin/pipe_progress",
+        "/system/xbin/pkill", "/system/xbin/pmap", "/system/xbin/poweroff",
+        "/system/xbin/printenv", "/system/xbin/printf", "/system/xbin/ps",
+        "/system/xbin/pstree", "/system/xbin/pwd", "/system/xbin/pwdx",
+        "/system/xbin/rdev", "/system/xbin/readlink", "/system/xbin/realpath",
+        "/system/xbin/renice", "/system/xbin/reset", "/system/xbin/resize",
+        "/system/xbin/rev", "/system/xbin/rm", "/system/xbin/rmdir",
+        "/system/xbin/rmmod", "/system/xbin/route", "/system/xbin/run-parts",
+        "/system/xbin/rx", "/system/xbin/sed", "/system/xbin/seq",
+        "/system/xbin/setconsole", "/system/xbin/setserial",
+        "/system/xbin/setsid", "/system/xbin/sh", "/system/xbin/sha1sum",
+        "/system/xbin/sha256sum", "/system/xbin/sha3sum",
+        "/system/xbin/sha512sum", "/system/xbin/sleep", "/system/xbin/sort",
+        "/system/xbin/split", "/system/xbin/stat", "/system/xbin/strings",
+        "/system/xbin/stty", "/system/xbin/sum", "/system/xbin/swapoff",
+        "/system/xbin/swapon", "/system/xbin/sync", "/system/xbin/sysctl",
+        "/system/xbin/tac", "/system/xbin/tail", "/system/xbin/tar",
+        "/system/xbin/taskset", "/system/xbin/tee", "/system/xbin/telnet",
+        "/system/xbin/telnetd", "/system/xbin/test", "/system/xbin/tftp",
+        "/system/xbin/tftpd", "/system/xbin/time", "/system/xbin/timeout",
+        "/system/xbin/top", "/system/xbin/touch", "/system/xbin/tr",
+        "/system/xbin/traceroute", "/system/xbin/true", "/system/xbin/ttysize",
+        "/system/xbin/tune2fs", "/system/xbin/umount", "/system/xbin/uname",
+        "/system/xbin/uncompress", "/system/xbin/unexpand", "/system/xbin/uniq",
+        "/system/xbin/unix2dos", "/system/xbin/unlzma", "/system/xbin/unlzop",
+        "/system/xbin/unxz", "/system/xbin/unzip", "/system/xbin/uptime",
+        "/system/xbin/usleep", "/system/xbin/uudecode", "/system/xbin/uuencode",
+        "/system/xbin/vi", "/system/xbin/watch", "/system/xbin/wc",
+        "/system/xbin/wget", "/system/xbin/which", "/system/xbin/whoami",
+        "/system/xbin/xargs", "/system/xbin/xz", "/system/xbin/xzcat",
+        "/system/xbin/yes",
+        "/system/xbin/zcat");
+
+###############################################################################
+# FLASH KERNEL
+ui_print("Flashing the kernel");
+run_program("/tmp/aroma.sh", "FLASH");
+run_program("/tmp/aroma.sh", "WAIT");
+set_progress(0.3);
+
+###############################################################################
+# STOCK PROFILE
+if file_getprop("/tmp/aroma-data/install.prop","selected.1") == "1" then
+	ui_print("--- Stock Settings");
+	delete("/system/kernel.prop");
+	run_program("/tmp/aroma.sh", "CFQ");
+	run_program("/tmp/aroma.sh", "NO_TURBO");
+	run_program("/tmp/aroma.sh", "ARCH_POWER");
+	run_program("/tmp/aroma.sh", "GENTLE_FAIR_SLEEPERS");
+	run_program("/tmp/aroma.sh", "INTERACTIVE");
+	run_program("/tmp/aroma.sh", "A53-400");
+	run_program("/tmp/aroma.sh", "A53-1500");
+	run_program("/tmp/aroma.sh", "A57-800");
+	run_program("/tmp/aroma.sh", "A57-2100");
+	run_program("/tmp/aroma.sh", "TCP-BIC");
+	run_program("/tmp/aroma.sh", "NO_INITD");
+	run_program("/tmp/aroma.sh", "STOCK_GAPPS");
+	set_progress(0.5);
+	ui_print(" ");
+endif;
+
+###############################################################################
+# PERFORMANCE PROFILE
+if file_getprop("/tmp/aroma-data/install.prop","selected.1") == "2" then
+	ui_print("--- Performance Settings");
+	delete("/system/kernel.prop");
+	run_program("/tmp/aroma.sh", "BFQ");
+	run_program("/tmp/aroma.sh", "TURBO");
+	run_program("/tmp/aroma.sh", "ARCH_POWER");
+	run_program("/tmp/aroma.sh", "NO_GENTLE_FAIR_SLEEPERS");
+	run_program("/tmp/aroma.sh", "PERFORMANCE");
+	run_program("/tmp/aroma.sh", "A53-400");
+	run_program("/tmp/aroma.sh", "A53-1500");
+	run_program("/tmp/aroma.sh", "A57-800");
+	run_program("/tmp/aroma.sh", "A57-2100");
+	run_program("/tmp/aroma.sh", "TCP-WESTWOOD");
+	run_program("/tmp/aroma.sh", "AUTO_INITD");
+	run_program("/tmp/aroma.sh", "TUNED_VM");
+	run_program("/tmp/aroma.sh", "STOCK_GAPPS");
+	set_progress(0.5);
+	ui_print(" ");
+endif;
+
+###############################################################################
+# BATTERY PROFILE
+if file_getprop("/tmp/aroma-data/install.prop","selected.1") == "3" then
+	ui_print("--- Battery Settings");
+	delete("/system/kernel.prop");
+	run_program("/tmp/aroma.sh", "NOOP");
+	run_program("/tmp/aroma.sh", "NO_TURBO");
+	run_program("/tmp/aroma.sh", "NO_ARCH_POWER");
+	run_program("/tmp/aroma.sh", "NO_GENTLE_FAIR_SLEEPERS");
+	run_program("/tmp/aroma.sh", "INTERACTIVE");
+	run_program("/tmp/aroma.sh", "A53-400");
+	run_program("/tmp/aroma.sh", "A53-1200");
+	run_program("/tmp/aroma.sh", "A57-800");
+	run_program("/tmp/aroma.sh", "A57-1800");
+	run_program("/tmp/aroma.sh", "TCP-CUBIC");
+	run_program("/tmp/aroma.sh", "NO_INITD");
+	run_program("/tmp/aroma.sh", "FIX_GAPPS");
+	set_progress(0.5);
+	ui_print(" ");
+endif;
+
+###############################################################################
+# USE EXISTING PROFILE
+if file_getprop("/tmp/aroma-data/install.prop","selected.1") == "4" then
+	ui_print("--- Existing Settings");
+	set_progress(0.5);
+	ui_print(" ");
+endif;
+
+###############################################################################
+# CUSTOM_CONFIGURATION PROFILE
+if file_getprop("/tmp/aroma-data/install.prop","selected.1") == "5" then
+delete("/system/kernel.prop");
+
+###############################################################################
+# SCHEDULERS
+if file_getprop("/tmp/aroma-data/scheduler.prop","selected.1") == "1" then
+	ui_print("--- CFQ Scheduler");
+	run_program("/tmp/aroma.sh", "CFQ");
+endif;
+
+if file_getprop("/tmp/aroma-data/scheduler.prop","selected.1") == "2" then
+	ui_print("--- BFQ Scheduler");
+	run_program("/tmp/aroma.sh", "BFQ");
+endif;
+
+if file_getprop("/tmp/aroma-data/scheduler.prop","selected.1") == "3" then
+	ui_print("--- Deadline Scheduler");
+	run_program("/tmp/aroma.sh", "DEADLINE");
+endif;
+
+if file_getprop("/tmp/aroma-data/scheduler.prop","selected.1") == "4" then
+	ui_print("--- Fiops Scheduler");
+	run_program("/tmp/aroma.sh", "FIOPS");
+endif;
+
+if file_getprop("/tmp/aroma-data/scheduler.prop","selected.1") == "5" then
+	ui_print("--- Noop Scheduler");
+	run_program("/tmp/aroma.sh", "NOOP");
+endif;
+
+if file_getprop("/tmp/aroma-data/scheduler.prop","selected.1") == "6" then
+	ui_print("--- Row Scheduler");
+	run_program("/tmp/aroma.sh", "ROW");
+endif;
+
+if file_getprop("/tmp/aroma-data/scheduler.prop","selected.1") == "7" then
+	ui_print("--- Sioplus Scheduler");
+	run_program("/tmp/aroma.sh", "SIOPLUS");
+endif;
+
+if file_getprop("/tmp/aroma-data/scheduler.prop","selected.1") == "8" then
+	ui_print("--- Tripndroid Scheduler");
+	run_program("/tmp/aroma.sh", "TRIPNDROID");
+endif;
+
+run_program("/tmp/aroma.sh", "WAIT");
+set_progress(0.5);
+
+###############################################################################
+# GOVERNORS
+
+if file_getprop("/tmp/aroma-data/governor.prop","selected.1") == "1" then
+	ui_print("--- Conservative Governor");
+	run_program("/tmp/aroma.sh", "CONSERVATIVE");
+endif;
+
+if file_getprop("/tmp/aroma-data/governor.prop","selected.1") == "2" then
+	ui_print("--- Interactive Governor");
+	run_program("/tmp/aroma.sh", "INTERACTIVE");
+endif;
+
+if file_getprop("/tmp/aroma-data/governor.prop","selected.1") == "3" then
+	ui_print("--- Ondemand Governor");
+	run_program("/tmp/aroma.sh", "ONDEMAND");
+endif;
+
+if file_getprop("/tmp/aroma-data/governor.prop","selected.1") == "4" then
+	ui_print("--- Performance Governor");
+	run_program("/tmp/aroma.sh", "PERFORMANCE");
+endif;
+
+if file_getprop("/tmp/aroma-data/governor.prop","selected.1") == "5" then
+	ui_print("--- Alucard Governor");
+	run_program("/tmp/aroma.sh", "ALUCARD");
+endif;
+
+if file_getprop("/tmp/aroma-data/governor.prop","selected.1") == "6" then
+	ui_print("--- Bioshock Governor");
+	run_program("/tmp/aroma.sh", "BIOSHOCK");
+endif;
+
+if file_getprop("/tmp/aroma-data/governor.prop","selected.1") == "7" then
+	ui_print("--- Dancedance Governor");
+	run_program("/tmp/aroma.sh", "DANCEDANCE");
+endif;
+
+if file_getprop("/tmp/aroma-data/governor.prop","selected.1") == "8" then
+	ui_print("--- Lionheart Governor");
+	run_program("/tmp/aroma.sh", "LIONHEART");
+endif;
+
+if file_getprop("/tmp/aroma-data/governor.prop","selected.1") == "9" then
+	ui_print("--- Smartass2 Governor");
+	run_program("/tmp/aroma.sh", "SMARTASS2");
+endif;
+
+if file_getprop("/tmp/aroma-data/governor.prop","selected.1") == "10" then
+	ui_print("--- Wheatley Governor");
+	run_program("/tmp/aroma.sh", "WHEATLEY");
+endif;
+
+run_program("/tmp/aroma.sh", "WAIT");
+
+###############################################################################
+# A53 CPUFREQ
+
+if file_getprop("/tmp/aroma-data/a53freqmin.prop","selected.1") == "1" then
+	ui_print("--- 200 MHz min Freq A53 Cluster");
+	run_program("/tmp/aroma.sh", "A53-200");
+endif;
+
+if file_getprop("/tmp/aroma-data/a53freqmin.prop","selected.1") == "2" then
+	ui_print("--- 300 MHz min Freq A53 Cluster");
+	run_program("/tmp/aroma.sh", "A53-300");
+endif;
+
+if file_getprop("/tmp/aroma-data/a53freqmin.prop","selected.1") == "3" then
+	ui_print("--- 400 MHz min Freq A53 Cluster");
+	run_program("/tmp/aroma.sh", "A53-400");
+endif;
+
+run_program("/tmp/aroma.sh", "WAIT");
+
+if file_getprop("/tmp/aroma-data/a53freqmax.prop","selected.1") == "1" then
+	ui_print("--- 1200 MHz max Freq A53 Cluster");
+	run_program("/tmp/aroma.sh", "A53-1200");
+endif;
+
+if file_getprop("/tmp/aroma-data/a53freqmax.prop","selected.1") == "2" then
+	ui_print("--- 1296 MHz max Freq A53 Cluster");
+	run_program("/tmp/aroma.sh", "A53-1296");
+endif;
+
+if file_getprop("/tmp/aroma-data/a53freqmax.prop","selected.1") == "3" then
+	ui_print("--- 1400 MHz max Freq A53 Cluster");
+	run_program("/tmp/aroma.sh", "A53-1400");
+endif;
+
+if file_getprop("/tmp/aroma-data/a53freqmax.prop","selected.1") == "4" then
+	ui_print("--- 1500 MHz max Freq A53 Cluster");
+	run_program("/tmp/aroma.sh", "A53-1500");
+endif;
+
+if file_getprop("/tmp/aroma-data/a53freqmax.prop","selected.1") == "5" then
+	ui_print("--- 1600 MHz max Freq A53 Cluster");
+	run_program("/tmp/aroma.sh", "A53-1600");
+endif;
+
+run_program("/tmp/aroma.sh", "WAIT");
+
+###############################################################################
+# A57 CPUFREQ
+
+if file_getprop("/tmp/aroma-data/a57freqmin.prop","selected.1") == "1" then
+	ui_print("--- 200 MHz min Freq A57 Cluster");
+	run_program("/tmp/aroma.sh", "A57-200");
+endif;
+
+if file_getprop("/tmp/aroma-data/a57freqmin.prop","selected.1") == "2" then
+	ui_print("--- 300 MHz min Freq A57 Cluster");
+	run_program("/tmp/aroma.sh", "A57-300");
+endif;
+
+if file_getprop("/tmp/aroma-data/a57freqmin.prop","selected.1") == "3" then
+	ui_print("--- 400 MHz min Freq A57 Cluster");
+	run_program("/tmp/aroma.sh", "A57-400");
+endif;
+
+if file_getprop("/tmp/aroma-data/a57freqmin.prop","selected.1") == "4" then
+	ui_print("--- 500 MHz min Freq A57 Cluster");
+	run_program("/tmp/aroma.sh", "A57-500");
+endif;
+
+if file_getprop("/tmp/aroma-data/a57freqmin.prop","selected.1") == "5" then
+	ui_print("--- 600 MHz min Freq A57 Cluster");
+	run_program("/tmp/aroma.sh", "A57-600");
+endif;
+
+if file_getprop("/tmp/aroma-data/a57freqmin.prop","selected.1") == "6" then
+	ui_print("--- 700 MHz min Freq A57 Cluster");
+	run_program("/tmp/aroma.sh", "A57-700");
+endif;
+
+if file_getprop("/tmp/aroma-data/a57freqmin.prop","selected.1") == "7" then
+	ui_print("--- 800 MHz min Freq A57 Cluster");
+	run_program("/tmp/aroma.sh", "A57-800");
+endif;
+
+run_program("/tmp/aroma.sh", "WAIT");
+
+if file_getprop("/tmp/aroma-data/a57freqmax.prop","selected.1") == "1" then
+	ui_print("--- 1704 MHz max Freq A57 Cluster");
+	run_program("/tmp/aroma.sh", "A57-1704");
+endif;
+
+if file_getprop("/tmp/aroma-data/a57freqmax.prop","selected.1") == "2" then
+	ui_print("--- 1800 MHz max Freq A57 Cluster");
+	run_program("/tmp/aroma.sh", "A57-1800");
+endif;
+
+if file_getprop("/tmp/aroma-data/a57freqmax.prop","selected.1") == "3" then
+	ui_print("--- 1896 MHz max Freq A57 Cluster");
+	run_program("/tmp/aroma.sh", "A57-1896");
+endif;
+
+if file_getprop("/tmp/aroma-data/a57freqmax.prop","selected.1") == "4" then
+	ui_print("--- 2000 MHz max Freq A57 Cluster");
+	run_program("/tmp/aroma.sh", "A57-2000");
+endif;
+
+if file_getprop("/tmp/aroma-data/a57freqmax.prop","selected.1") == "5" then
+	ui_print("--- 2100 MHz max Freq A57 Cluster");
+	run_program("/tmp/aroma.sh", "A57-2100");
+endif;
+
+if file_getprop("/tmp/aroma-data/a57freqmax.prop","selected.1") == "6" then
+	ui_print("--- 2200 MHz max Freq A57 Cluster");
+	run_program("/tmp/aroma.sh", "A57-2200");
+endif;
+
+if file_getprop("/tmp/aroma-data/a57freqmax.prop","selected.1") == "7" then
+	ui_print("--- 2304 MHz max Freq A57 Cluster");
+	run_program("/tmp/aroma.sh", "A57-2304");
+endif;
+
+run_program("/tmp/aroma.sh", "WAIT");
+
+###############################################################################
+# TCP CONGESTION CONTROLLER
+
+if file_getprop("/tmp/aroma-data/tcpcong.prop","selected.1") == "1" then
+	ui_print("--- TCP Cong Bic");
+	run_program("/tmp/aroma.sh", "TCP-BIC");
+endif;
+
+if file_getprop("/tmp/aroma-data/tcpcong.prop","selected.1") == "2" then
+	ui_print("--- TCP Cong Cubic");
+	run_program("/tmp/aroma.sh", "TCP-CUBIC");
+endif;
+
+if file_getprop("/tmp/aroma-data/tcpcong.prop","selected.1") == "3" then
+	ui_print("--- TCP Cong Westwood");
+	run_program("/tmp/aroma.sh", "TCP-WESTWOOD");
+endif;
+
+if file_getprop("/tmp/aroma-data/tcpcong.prop","selected.1") == "4" then
+	ui_print("--- TCP Cong Hstcp");
+	run_program("/tmp/aroma.sh", "TCP-HSTCP");
+endif;
+
+if file_getprop("/tmp/aroma-data/tcpcong.prop","selected.1") == "5" then
+	ui_print("--- TCP Cong Hybla");
+	run_program("/tmp/aroma.sh", "TCP-HYBLA");
+endif;
+
+if file_getprop("/tmp/aroma-data/tcpcong.prop","selected.1") == "6" then
+	ui_print("--- TCP Cong Htcp");
+	run_program("/tmp/aroma.sh", "TCP-HTCP");
+endif;
+
+run_program("/tmp/aroma.sh", "WAIT");
+
+###############################################################################
+# TURBO MODE
+
+if file_getprop("/tmp/aroma-data/delag.prop","selected.1") == "1" then
+	ui_print("--- Turbo Mode");
+	run_program("/tmp/aroma.sh", "TURBO");
+endif;
+
+if file_getprop("/tmp/aroma-data/delag.prop","selected.1") == "2" then
+	ui_print("--- Stock Performance Mode");
+	run_program("/tmp/aroma.sh", "NO_TURBO");
+endif;
+run_program("/tmp/aroma.sh", "WAIT");
+set_progress(0.6);
+
+###############################################################################
+# INTERACTIVE TUNING
+
+if file_getprop("/tmp/aroma-data/interactive.prop","selected.1") == "1" then
+	ui_print("--- Performance Interactive settings");
+	run_program("/tmp/aroma.sh", "PERFORMANCE_INTERACTIVE");
+endif;
+
+if file_getprop("/tmp/aroma-data/interactive.prop","selected.1") == "2" then
+	ui_print("--- Stock Interactive settings");
+	run_program("/tmp/aroma.sh", "STOCK_INTERACTIVE");
+endif;
+
+if file_getprop("/tmp/aroma-data/interactive.prop","selected.1") == "3" then
+	ui_print("--- Battery Interactive settings");
+	run_program("/tmp/aroma.sh", "BATTERY_INTERACTIVE");
+endif;
+run_program("/tmp/aroma.sh", "WAIT");
+
+###############################################################################
+# INIT.D SUPPORT
+
+if file_getprop("/tmp/aroma-data/init.prop","selected.1") == "1" then
+	ui_print("--- Automatic Kernel control of init.d");
+	run_program("/tmp/aroma.sh", "AUTO_INITD");
+endif;
+
+if file_getprop("/tmp/aroma-data/init.prop","selected.1") == "2" then
+	ui_print("--- ROM only control of init.d");
+	run_program("/tmp/aroma.sh", "NO_INITD");
+endif;
+run_program("/tmp/aroma.sh", "WAIT");
+
+set_progress(0.7);
+
+###############################################################################
+# GAPPS FIX
+
+if file_getprop("/tmp/aroma-data/power.prop","selected.1") == "1" then
+	ui_print("--- GApps Wakelock Fix");
+	run_program("/tmp/aroma.sh", "FIX_GAPPS");
+endif;
+
+if file_getprop("/tmp/aroma-data/power.prop","selected.1") == "2" then
+	ui_print("--- No GApps Wakelock fix");
+	run_program("/tmp/aroma.sh", "STOCK_GAPPS");
+endif;
+run_program("/tmp/aroma.sh", "WAIT");
+
+###############################################################################
+# TUNED VM
+
+if file_getprop("/tmp/aroma-data/vm.prop","selected.1") == "1" then
+	ui_print("--- Tuned VM");
+	run_program("/tmp/aroma.sh", "TUNED_VM");
+endif;
+
+if file_getprop("/tmp/aroma-data/vm.prop","selected.1") == "2" then
+	ui_print("--- Stock VM");
+endif;
+run_program("/tmp/aroma.sh", "WAIT");
+
+###############################################################################
+# ARCH_POWER
+
+if file_getprop("/tmp/aroma-data/archpower.prop","selected.1") == "1" then
+	ui_print("--- Arch Power Off");
+	run_program("/tmp/aroma.sh", "NO_ARCH_POWER");
+endif;
+
+if file_getprop("/tmp/aroma-data/archpower.prop","selected.1") == "2" then
+	ui_print("--- Arch Power On");
+	run_program("/tmp/aroma.sh", "ARCH_POWER");
+endif;
+run_program("/tmp/aroma.sh", "WAIT");
+
+###############################################################################
+# GENTLE_FAIR_SLEEPERS
+
+if file_getprop("/tmp/aroma-data/gfs.prop","selected.1") == "1" then
+	ui_print("--- Gentle Fair Sleepers Off");
+	run_program("/tmp/aroma.sh", "NO_GENTLE_FAIR_SLEEPERS");
+endif;
+
+if file_getprop("/tmp/aroma-data/gfs.prop","selected.1") == "2" then
+	ui_print("--- Gentle Fair Sleepers On");
+	run_program("/tmp/aroma.sh", "GENTLE_FAIR_SLEEPERS");
+endif;
+run_program("/tmp/aroma.sh", "WAIT");
+
+###############################################################################
+# MULTIUSER
+
+if file_getprop("/tmp/aroma-data/multiuser.prop","selected.1") == "1" then
+	ui_print("--- Enable Multiuser");
+	package_extract_file("mods/multiuser/multiuser.sh", "/tmp/multiuser.sh");
+	set_metadata("/tmp/multiuser.sh", "uid", 0, "gid", 0, "mode", 0777);
+	run_program("/tmp/multiuser.sh");
+	delete("/tmp/multiuser.sh");
+endif;
+
+if file_getprop("/tmp/aroma-data/multiuser.prop","selected.1") == "2" then
+	ui_print("--- Disable Multiuser");
+	package_extract_file("mods/multiuser/removemultiuser.sh", "/tmp/removemultiuser.sh");
+	set_metadata("/tmp/removemultiuser.sh", "uid", 0, "gid", 0, "mode", 0777);
+	run_program("/tmp/removemultiuser.sh");
+	delete("/tmp/removemultiuser.sh");
+endif;
+run_program("/tmp/aroma.sh", "WAIT");
+
+###############################################################################
+# KNOX REMOVER
+
+if file_getprop("/tmp/aroma-data/knox.prop","selected.1") == "1" then
+	ui_print("--- Remove Knox");
+	run_program("/tmp/aroma.sh", "KNOX");
+endif;
+run_program("/tmp/aroma.sh", "WAIT");
+
+set_progress(0.8);
+ui_print(" ");
+
+
+# END OF CUSTOM CONFIGURATION
+endif;
+
+###############################################################################
+# KILL OLD STUFF
+
+delete("/system/etc/init.d/11ENTROPY");
+delete_recursive("/data/data/com.af.synapse");
+delete_recursive("/res");
+delete_recursive("/data/.ael");
+delete_recursive("/data/.simplkernel");
+delete_recursive("/data/simpltest.log");
+delete_recursive("/data/.hackerkernel");
+delete_recursive("/data/media/0/hackerkernel");
+delete_recursive("/data/hackertest.log");
+delete_recursive("/data/.hybridmax");
+delete_recursive("/storage/sdcard0/KTweaker");
+#delete_recursive("/system/app/BBCAgent");
+#delete_recursive("/system/app/Bridge");
+#delete_recursive("/system/app/com.ktoonsez.KTweaker.apk");
+delete_recursive("/system/app/com.ktoonsez.KTmonitor.apk");
+#delete_recursive("/system/app/KNOXAgent");
+#delete_recursive("/system/app/KnoxAttestationAgent");
+#delete_recursive("/system/app/KnoxSetupWizardClient");
+#delete_recursive("/system/app/SwitchKnoxI");
+#delete_recursive("/system/app/SwitchKnoxII");
+#delete_recursive("/system/priv-app/KLMSAgent");
+#delete_recursive("/system/priv-app/SPDClient");
+#delete_recursive("/system/priv-app/KnoxShortcuts");
+#delete_recursive("/system/container/ContainerAgent2");
+#delete_recursive("/system/container/KnoxPackageVerifier");
+#delete_recursive("/system/container/KnoxSecureHandler");
+#delete_recursive("/system/container/KnoxSwitcher");
+set_progress(0.9);
+
+###############################################################################
+# TWEAKS
+set_perm(0, 0, 0777, "/tmp/ext4");
+set_perm(0, 0, 0777, "/tmp/tune2fs");
+run_program("/tmp/ext4");
+set_perm(0, 0, 0777, "/tmp/fstrim");
+run_program("/tmp/fstrim", "-v", "/system");
+run_program("/tmp/fstrim", "-v", "/data");
+run_program("/sbin/sleep", "1s");
+
+###############################################################################
+# FIX PERMISSIONS
+run_program("/tmp/aroma.sh", "FIX_PERMS");
+
+set_progress(1.0);
+ui_print(" ");
+ui_print("Installation successful");
+
+# CLEANUP
+delete("/system/device.prop");
+delete_recursive("/tmp");
+unmount("/cache");
+unmount("/data");
+unmount("/system");
+
+set_progress(1.0);

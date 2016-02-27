@@ -1,0 +1,12 @@
+#!/system/xbin/busybox/sh
+# DVFS (Dynamic Voltage and Frequency Scaling) Disabler for Exynos 7420 Devices
+# Copyright (c) 2013-2016 Hybridmax
+
+chmod 000 /sys/devices/14ac0000.mali/dvfs
+chmod 000 /sys/devices/14ac0000.mali/dvfs_max_lock
+chmod 000 /sys/devices/14ac0000.mali/dvfs_min_lock
+
+# To enable DVFS use this:
+#chmod 644 /sys/devices/14ac0000.mali/dvfs
+#chmod 644 /sys/devices/14ac0000.mali/dvfs_max_lock
+#chmod 644 /sys/devices/14ac0000.mali/dvfs_min_lock

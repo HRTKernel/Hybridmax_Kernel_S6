@@ -1,0 +1,12 @@
+<@center><b><#selectbg_g>Terms of Service</#></b>
+
+Your warranty is now void.
+
+xda, mystery-projekt and i are not responsible for bricked devices, dead SD cards or thermonuclear war. Please do some research if you have any concerns about features included in this KERNEL before flashing it! Accept the fact that something might go wrong.
+
+YOU are choosing to make these modifications!!
+
+
+<@center><b><#selectbg_g>READ THIS BEFORE GOING FURTHER</#>
+<@left>
+Do not flash this package if you have a Sprint or Rogers device
